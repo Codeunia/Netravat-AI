@@ -46,7 +46,6 @@ Netravat-AI is a real-time AI-powered mock interview platform designed to simula
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXE0N2V1dTU2dzRnbjlydG8zOHE0ZmduZXJjN3k4N2l0amo3MzF6bSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/PxSFAnuubLkSA/giphy.gif" alt="Developer Vibes" width="600"/>
 </p>
 <p align="center">
-
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXE0N2V1dTU2dzRnbjlydG8zOHE0ZmduZXJjN3k4N2l0amo3MzF6bSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/PIU2OEePUtxrYf8v22/giphy.gif" alt="that's ai" width="150"/>
 </p>
 ---
