@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {//okh
+import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -24,12 +24,13 @@ const authFormSchema = (type: FormType) => {
   return z.object({
     name: type === "sign-up" ? z.string().min(3) : z.string().optional(),
     email: z.string().email(),
-    password: z.string().min(3),
+    password: z.string().min(6, "Password must be at least 6 characters long"),
   });
 };
 
 const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
+  const isSignIn = type === "sign-in";
 
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -77,7 +78,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         const idToken = await userCredential.user.getIdToken();
         if (!idToken) {
-          toast.error("Sign in Failed. Please try again.");
+          toast.error("Sign in failed. Please try again.");
           return;
         }
 
@@ -89,13 +90,34 @@ const AuthForm = ({ type }: { type: FormType }) => {
         toast.success("Signed in successfully.");
         router.push("/");
       }
-    } catch (error) {
-      console.log(error);
-      toast.error(`There was an error: ${error}`);
+    } catch (error: any) {
+      console.error("Firebase Auth Error:", error);
+
+      // Firebase error handling
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          toast.error("This email is already registered. Please sign in.");
+          router.push("/sign-in");
+          break;
+        case "auth/invalid-email":
+          toast.error("Invalid email format. Please check again.");
+          break;
+        case "auth/wrong-password":
+          toast.error("Incorrect password. Please try again.");
+          break;
+        case "auth/user-not-found":
+          toast.error("No account found with this email. Please sign up first.");
+          router.push("/sign-up");
+          break;
+        case "auth/weak-password":
+          toast.error("Password is too weak. Try a stronger one.");
+          break;
+        default:
+          toast.error(`Something went wrong: ${error.message}`);
+          break;
+      }
     }
   };
-
-  const isSignIn = type === "sign-in";
 
   return (
     <div className="card-border lg:min-w-[566px]">
@@ -147,10 +169,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
         <p className="text-center">
           {isSignIn ? "No account yet?" : "Have an account already?"}
           <Link
-            href={!isSignIn ? "/sign-in" : "/sign-up"}
+            href={!isSignIn ? "/sign-up" : "/sign-in"}
             className="font-bold text-user-primary ml-1"
           >
-            {!isSignIn ? "Sign In" : "Sign Up"}
+            {!isSignIn ? "Sign Up" : "Sign In"}
           </Link>
         </p>
       </div>

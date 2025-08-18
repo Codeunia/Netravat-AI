@@ -1,5 +1,5 @@
 "use server";
-
+//this file handles sign in sign up session cookie
 import { auth, db } from "@/firebase/admin";
 import { cookies } from "next/headers";
 
