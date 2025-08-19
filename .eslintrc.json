@@ -1,0 +1,24 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "."
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "tailwindcss"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:tailwindcss/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "tailwindcss/classnames-order": "warn",
+    "tailwindcss/no-custom-classname": "off"
+  }
+}
