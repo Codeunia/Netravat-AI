@@ -3,7 +3,9 @@ import Image from "next/image";
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
-import { isAuthenticated } from "@/lib/actions/auth.action";
+// Update the import path if the file is located elsewhere, e.g.:
+import { isAuthenticated } from "../../lib/actions/auth.action";
+// Or, if the file does not exist, create 'auth.action.ts' in 'app/lib/actions/' and export 'isAuthenticated' from it.
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const isUserAuthenticated = await isAuthenticated();

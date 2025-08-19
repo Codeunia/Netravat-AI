@@ -1,6 +1,7 @@
 "use server";
 //this file handles sign in sign up session cookie
 import { auth, db } from "@/firebase/admin";
+import { SignInParams, SignUpParams, User } from "@/types";
 import { cookies } from "next/headers";
 
 // Session duration (1 week)
@@ -51,6 +52,7 @@ export async function signUp(params: NewType) {
       success: true,
       message: "Account created successfully. Please sign in.",
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error creating user:", error);
 
@@ -81,6 +83,7 @@ export async function signIn(params: SignInParams) {
       };
 
     await setSessionCookie(idToken);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log("");
 
@@ -132,3 +135,25 @@ export async function isAuthenticated() {
   const user = await getCurrentUser();
   return !!user;
 }
+
+// What this file is:
+
+// It’s a Server Action module (notice the "use server"; at the top).
+
+// It handles all of your auth-related logic: sign in, sign up, session cookies, and checking if a user is authenticated.
+
+// It connects Next.js (App Router) with Firebase Admin SDK.
+
+// Responsibilities of each function:
+
+// setSessionCookie → creates a secure session cookie from Firebase ID Token and stores it with next/headers.
+
+// signUp → checks Firestore if user exists → if not, saves them in /users/{uid} collection.
+
+// signIn → validates email via Firebase Auth, then calls setSessionCookie(idToken) to persist login.
+
+// signOut → deletes the session cookie.
+
+// getCurrentUser → verifies the session cookie and returns user data from Firestore.
+
+// isAuthenticated → simple boolean check if user exists in session.
