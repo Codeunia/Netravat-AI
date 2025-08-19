@@ -1,14 +1,20 @@
-// import {Image} from "next/image"
 import Link from "next/link";
 import Image from "next/image";
 
 import React from 'react'
 import {Button} from '@/components/ui/button'
+import InterviewCard from "@/components/interviewCard";
+import { Interview } from "@/types";
 // import { Link } from 'lucide-react'
 
 
 
 const page = () => {
+  const userInterviews: Interview[] = [];
+  const allInterview: Interview[] = [];
+  const user = { id: "1" };
+  const hasPastInterviews = userInterviews.length > 0;
+  const hasUpcomingInterviews = allInterview.length > 0;
   return (
    <>
    <section className="card-cta">
@@ -37,7 +43,7 @@ const page = () => {
 
         <div className="interviews-section">
           {hasPastInterviews ? (
-            userInterviews?.map((interview) => (
+            userInterviews?.map((interview: Interview) => (
               <InterviewCard
                 key={interview.id}
                 userId={user?.id}
@@ -59,7 +65,7 @@ const page = () => {
 
         <div className="interviews-section">
           {hasUpcomingInterviews ? (
-            allInterview?.map((interview) => (
+            allInterview?.map((interview: Interview) => (
               <InterviewCard
                 key={interview.id}
                 userId={user?.id}
